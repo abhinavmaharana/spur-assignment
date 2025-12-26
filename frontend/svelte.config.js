@@ -1,7 +1,7 @@
-// Use adapter-vercel for Vercel deployments (zero-config, works automatically)
-// For other platforms (Docker, Netlify), use adapter-static
-import adapter from '@sveltejs/adapter-vercel';
-// import adapter from '@sveltejs/adapter-static'; // Uncomment for Docker/Netlify deployments
+    // Use adapter-vercel for Vercel deployments (zero-config, works automatically)
+    // For Netlify, use adapter-static
+    import adapter from '@sveltejs/adapter-vercel';
+    // import adapter from '@sveltejs/adapter-static'; // Uncomment for Netlify deployments
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -11,8 +11,8 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		// Use adapter-vercel for Vercel (zero-config, automatic)
-		// For Docker/Netlify, uncomment adapter-static above and use:
+        // Use adapter-vercel for Vercel (zero-config, automatic)
+        // For Netlify, uncomment adapter-static above and use:
 		// adapter: adapter({
 		//   pages: 'build',
 		//   assets: 'build',

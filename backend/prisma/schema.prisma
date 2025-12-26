@@ -6,16 +6,16 @@ generator client {
 }
 
 // For SQLite (local dev):
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
+// datasource db {
+//  provider = "sqlite"
+//  url      = env("DATABASE_URL")
+// }
 
 // For PostgreSQL (production), uncomment below and comment out the sqlite datasource above:
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
+datasource db {
+   provider = "postgresql"
+   url      = env("DATABASE_URL")
+}
 
 model Conversation {
   id        String    @id // Generate manually for SQLite compatibility

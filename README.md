@@ -318,64 +318,6 @@ The SvelteKit chat UI includes:
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 
-## 🐳 Docker Support
-
-The project includes Docker support for easy deployment and local development.
-
-### Quick Start with Docker Compose
-
-1. **Set environment variables:**
-   ```bash
-   export GEMINI_API_KEY=your_api_key_here
-   ```
-
-2. **Start all services:**
-   ```bash
-   docker-compose up
-   ```
-
-   This will start:
-   - PostgreSQL database on port 5432
-   - Redis cache on port 6379
-   - Backend API on port 4000
-   - Frontend on port 3000
-
-3. **Access the application:**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:4000
-   - PostgreSQL: localhost:5432
-   - Redis: localhost:6379
-
-### Docker Compose Services
-
-- **postgres**: PostgreSQL 15 database
-- **redis**: Redis 7 cache
-- **backend**: Node.js backend with Prisma migrations
-- **frontend**: SvelteKit frontend served via `serve`
-
-### Building Individual Services
-
-**Backend:**
-```bash
-cd backend
-docker build -t spur-chat-backend .
-docker run -p 4000:4000 -e GEMINI_API_KEY=your_key -e DATABASE_URL=your_db_url spur-chat-backend
-```
-
-**Frontend:**
-```bash
-cd frontend
-docker build -t spur-chat-frontend .
-docker run -p 3000:3000 spur-chat-frontend
-```
-
-### Environment Variables for Docker
-
-The `docker-compose.yml` uses environment variables from your shell. Make sure to set:
-- `GEMINI_API_KEY`: Your Google Gemini API key
-
-Database credentials are configured in `docker-compose.yml` but can be overridden via environment variables.
-
 ## 📝 Environment Variables
 
 ### Backend
@@ -456,12 +398,10 @@ The following features have been implemented:
 - ✅ **Retry Logic**: Exponential backoff retry for LLM API calls (up to 3 attempts)
 - ✅ **Conversation History Loading**: REST API endpoint and frontend integration to load previous messages
 - ✅ **Message Reactions**: Users can provide thumbs up/down feedback on AI responses
-- ✅ **Docker Support**: Dockerfiles and docker-compose.yml for easy deployment and local development
 - ✅ **Enhanced Health Check**: Health endpoint now includes database and Redis connectivity status
 - ✅ **Environment Template**: `.env.example` file created for easier setup
 - ✅ **CORS Configuration**: Configurable via `CORS_ORIGIN` environment variable
 - ✅ **Input Sanitization**: HTML escaping for user messages to prevent XSS attacks
-- ✅ **Static Adapter**: Frontend now uses `adapter-static` for consistent Docker builds
 
 ## 📋 Pending Items / Known Issues
 
@@ -479,10 +419,10 @@ The following features have been implemented:
 
 ### Production Readiness
 
-1. **Frontend Docker Build**: ✅ **COMPLETED** - Uses `@sveltejs/adapter-vercel` for Vercel (zero-config) and `@sveltejs/adapter-static` available for Docker/Netlify.
+1. **Frontend Build**: ✅ **COMPLETED** - Uses `@sveltejs/adapter-vercel` for Vercel (zero-config) and `@sveltejs/adapter-static` available for Netlify.
    - **Status**: ✅ Done
    - **Vercel**: Uses adapter-vercel for automatic zero-config deployment
-   - **Docker/Netlify**: Can switch to adapter-static (commented in svelte.config.js)
+   - **Netlify**: Can switch to adapter-static (commented in svelte.config.js)
    - **Build**: Verified - frontend builds successfully
 
 2. **Environment Variables Template**: ✅ **COMPLETED** - Created `.env.example` file in backend directory with all required variables.
