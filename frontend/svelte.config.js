@@ -1,4 +1,7 @@
-import adapter from '@sveltejs/adapter-static';
+// Use adapter-vercel for Vercel deployments (zero-config, works automatically)
+// For other platforms (Docker, Netlify), use adapter-static
+import adapter from '@sveltejs/adapter-vercel';
+// import adapter from '@sveltejs/adapter-static'; // Uncomment for Docker/Netlify deployments
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -8,16 +11,16 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		// Use adapter-static for Docker and static deployments
-		// This ensures consistent build output regardless of deployment platform
-		adapter: adapter({
-			// Default options - pages are pre-rendered, fallback for SPA behavior
-			pages: 'build',
-			assets: 'build',
-			fallback: 'index.html', // SPA mode - all routes fallback to index.html
-			precompress: false,
-			strict: false // Allow dynamic routes since this is a client-side SPA
-		})
+		// Use adapter-vercel for Vercel (zero-config, automatic)
+		// For Docker/Netlify, uncomment adapter-static above and use:
+		// adapter: adapter({
+		//   pages: 'build',
+		//   assets: 'build',
+		//   fallback: 'index.html',
+		//   precompress: false,
+		//   strict: false
+		// })
+		adapter: adapter()
 	}
 };
 
