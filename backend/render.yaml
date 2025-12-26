@@ -1,0 +1,32 @@
+# Render Blueprint Configuration
+# This file allows you to define your entire stack (database + services) in code
+# Deploy by: render.yaml -> "New Blueprint" -> "Apply"
+
+services:
+  - type: web
+    name: spur-chat-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: GEMINI_API_KEY
+        sync: false # Set this manually in Render dashboard
+      - key: CORS_ORIGIN
+        sync: false # Set this after deploying frontend
+      - key: DATABASE_URL
+        fromDatabase:
+          name: spur-chat-db
+          property: connectionString
+
+databases:
+  - name: spur-chat-db
+    plan: free
+    databaseName: spur_chat
+    user: spur_chat_user
+

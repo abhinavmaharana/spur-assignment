@@ -1,0 +1,40 @@
+// Production PostgreSQL Schema
+// Copy this to schema.prisma and update datasource before deploying to production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// For PostgreSQL (production):
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// For SQLite (local dev), comment out above and use:
+// datasource db {
+//   provider = "sqlite"
+//   url      = env("DATABASE_URL")
+// }
+
+model Conversation {
+  id        String    @id // Generate manually for SQLite compatibility
+  createdAt DateTime  @default(now())
+  messages  Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id // Generate manually for SQLite compatibility
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String // "user" | "ai"
+  text           String
+  createdAt      DateTime     @default(now())
+  reaction       String? // "thumbs_up" | "thumbs_down" | null
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
+

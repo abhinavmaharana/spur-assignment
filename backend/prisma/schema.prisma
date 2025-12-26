@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// For SQLite (local dev):
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// For PostgreSQL (production), uncomment below and comment out the sqlite datasource above:
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+model Conversation {
+  id        String    @id // Generate manually for SQLite compatibility
+  createdAt DateTime  @default(now())
+  messages  Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id // Generate manually for SQLite compatibility
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String // "user" | "ai"
+  text           String
+  createdAt      DateTime     @default(now())
+  reaction       String? // "thumbs_up" | "thumbs_down" | null
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
